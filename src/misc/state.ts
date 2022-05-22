@@ -1,6 +1,6 @@
+import { MAX_CACHED_RATES } from '../settings'
 import type {Observer, Rate, RateSet} from './types'
 
-const MAX_SIZE = 20
 
 type State = {
   rateSet: RateSet
@@ -13,7 +13,7 @@ const observers: Array<Observer> = []
 
 export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {
   state.rateSet = [...state.rateSet, {time, rate}]
-  if(state.rateSet.length > MAX_SIZE){
+  if(state.rateSet.length > MAX_CACHED_RATES){
     state.rateSet = state.rateSet.slice(1)
   }
   for(const observer of observers){

@@ -5,13 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { getBTCExchangeRates } from "./misc/remote";
 import { updateRates } from "./misc/state";
+import { INTERVAL_FOR_FETCHING_RATES_SEC } from "./settings";
 
 const time = Date.now();
 getBTCExchangeRates().then((rate) => updateRates(time, rate));
 setInterval(() => {
   const time = Date.now();
   getBTCExchangeRates().then((rate) => updateRates(time, rate));
-}, 5000);
+}, INTERVAL_FOR_FETCHING_RATES_SEC * 1000);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

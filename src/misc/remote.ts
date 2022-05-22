@@ -48,9 +48,9 @@ export const getSymbols:()=>Promise<Array<string>> = ()=>{
   }
 }
 
-export const subscribeRealTimeTickers = () => {
-  const socket = new WebSocket(`${BASE_URL_WS}/stream?streams=btcusdt@aggTrade/btcusdc@aggTrade`);
-  socket.addEventListener('message', function (event) {
-      console.log('Message from server ', event.data);
-  });
-}
+// export const subscribeRealTimeTickers = () => {
+//   const socket = new WebSocket(`${BASE_URL_WS}/stream?streams=btcusdt@aggTrade/btcusdc@aggTrade`);
+//   socket.addEventListener('message', function (event) {
+//       console.log('Message from server ', event.data);
+//   });
+// }

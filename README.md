@@ -4,10 +4,16 @@
 
 An app header bar for hosting links to different pages.
 
-## State
+## State Management
 
-- The minutely fetched exchange rateSet are stored in the `state` of `./src/misc/state.ts`,
+Considering this project is quite small, instead of using a state management library, an Observer Patten is in place to make the application reactive to state updates.
+
+- The fetched exchange rateSet are stored in the `state` of `./src/misc/state.ts`,
 -
+
+## Settings
+
+Some settings could be tuned at `./src/settings.ts`
 
 # Getting Started with Create React App
 

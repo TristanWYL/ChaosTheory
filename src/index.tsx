@@ -4,19 +4,22 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { getBTCExchangeRates } from "./misc/remote";
+import { updateRates } from "./misc/state";
 
-setInterval(async () => {
-  const rates = await getBTCExchangeRates();
-  console.log(rates);
-}, 10000);
+const time = Date.now();
+getBTCExchangeRates().then((rate) => updateRates(time, rate));
+setInterval(() => {
+  const time = Date.now();
+  getBTCExchangeRates().then((rate) => updateRates(time, rate));
+}, 5000);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <App />
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

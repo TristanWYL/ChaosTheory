@@ -1,3 +1,14 @@
+# Design and Implementation
+
+## Layout
+
+An app header bar for hosting links to different pages.
+
+## State
+
+- The minutely fetched exchange rateSet are stored in the `state` of `./src/misc/state.ts`,
+-
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

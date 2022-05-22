@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { MAX_CACHED_RATES } from '../settings'
 import type {Observer, Rate, RateSet} from './types'
 
@@ -21,7 +22,7 @@ export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {
   }
 }
 
-export const subscribeRates:(listener:(rateSet:RateSet)=>any, immediate?:boolean)=>void = (listener, immediate=true) => {
+const subscribeRates:(listener:Observer, immediate?:boolean)=>void = (listener, immediate=true) => {
   const isExist = observers.includes(listener)
   if(!isExist){
     observers.push(listener)
@@ -30,10 +31,19 @@ export const subscribeRates:(listener:(rateSet:RateSet)=>any, immediate?:boolean
     listener(state.rateSet)
   }
 }
-export const unsubscribeRates:(listener:(rateSet:RateSet)=>any)=>void = (listener) => {
+const unsubscribeRates:(listener:Observer)=>void = (listener) => {
   const index = observers.indexOf(listener)
   if(index !== -1){
     observers.splice(index, 1)
   }
 }
 
+export const useRatesObserver: (listener: Observer) => void = (listener) =>{
+  // console.log(`length of rateSet outside: ${rateSet.length}`);
+  useEffect(() => {
+    subscribeRates(listener);
+    return () => {
+      unsubscribeRates(listener)
+    };
+  }, []);
+}

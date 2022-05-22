@@ -7,11 +7,14 @@ import { getBTCExchangeRates } from "./misc/remote";
 import { updateRates } from "./misc/state";
 import { INTERVAL_FOR_FETCHING_RATES_SEC } from "./settings";
 
-const time = Date.now();
-getBTCExchangeRates().then((rate) => updateRates(time, rate));
-setInterval(() => {
+// Initialize the data fetching
+const initializeDataFetching = () => {
   const time = Date.now();
   getBTCExchangeRates().then((rate) => updateRates(time, rate));
+};
+initializeDataFetching();
+setInterval(() => {
+  initializeDataFetching();
 }, INTERVAL_FOR_FETCHING_RATES_SEC * 1000);
 
 const root = ReactDOM.createRoot(

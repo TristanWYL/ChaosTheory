@@ -20,8 +20,8 @@ import {
   YAxis,
   Tooltip,
 } from "recharts";
-import { Observer, RateSet } from "../misc/types";
-import { subscribeRates, unsubscribeRates } from "../misc/state";
+import { RateSet } from "../misc/types";
+import { useRatesObserver } from "../misc/state";
 
 const formatXAxis: (tick_ms: number) => string = (tick_ms) => {
   let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -44,17 +44,10 @@ export const HistoryComponent = () => {
     });
   });
 
-  // console.log(`length of rateSet outside: ${rateSet.length}`);
-  useEffect(() => {
-    // console.log("useEffect from History");
-    const callback: Observer = (rateSet) => {
-      // console.log("callback from History");
-      setRateSet(rateSet);
-      // console.log(`length of rateSet effect: ${rateSet.length}`);
-    };
-    subscribeRates(callback);
-    return () => unsubscribeRates(callback);
-  }, []);
+  useRatesObserver((rateSet) => {
+    setRateSet(rateSet);
+  });
+
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
     index: number

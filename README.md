@@ -1,11 +1,15 @@
+# Production Url
+
+https://chaos-theory.netlify.app
+
 # Design and Implementation
 
 ## Driver
 
 The application is driven by function `fetchExchangeRate` defined in `./src/index.tsx`, which has the following properties:
 
--   it fetches the exchange rates regularly and update the UI reactively,
--   it is called every `INTERVAL_FOR_FETCHING_RATES_SEC` (imported from `./src/settings.ts`) seconds,
+-   it fetches the exchange rates regularly and update the state reactively,
+-   it is called every `INTERVAL_FOR_FETCHING_RATES_SEC` (imported from `./src/settings.ts`, which defaults to 60s) seconds,
 
 ## Layout
 
@@ -16,14 +20,14 @@ Two main parts: `Header` and `Body`
 
 ## State Management
 
-Considering this project is quite small, instead of using a state management library, an Observer Patten is implemented to make the application reactive to state updates.
+Considering this project is quite small, instead of using a state management library, Observer Patten is implemented to make the application reactive to state updates.
 
 -   The fetched exchange `rateSet` are stored in the `state` of `./src/misc/state.ts`,
--   The only way to update the state is to call relevant `update` function, which will do two things:
+-   The only way to update the state is to call relevant `update` function defined in .`/src/misc/state.ts`, which will do two things:
     -   update the state
     -   notify the listeners
 -   To listen to the state change, simply call the custom hook `useObserver` wherever in your component with a `listener` function passed in as an argument. When the state updates, the `listener` will be called,
--   when updating the state, try to replace the old state with a new state, so that the `setState` function derived from `useState` can always work.
+-   When updating the state, try to replace the old state with a new state, so that the `setState` function derived from `useState` can always work.
 
 ## Settings
 
@@ -43,20 +47,11 @@ In the project directory, you can run:
 
 ## How to test
 
-`yarn test`
+`yarn test --watchAll`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## How to build
 
 ### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ## How to prettify
 

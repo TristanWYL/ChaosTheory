@@ -9,7 +9,10 @@ An app header bar for hosting links to different pages.
 Considering this project is quite small, instead of using a state management library, an Observer Patten is in place to make the application reactive to state updates.
 
 - The fetched exchange rateSet are stored in the `state` of `./src/misc/state.ts`,
-- useObserver
+- The only way to update the state is to define an `update` function, which will do two things:
+  - update the state
+  - notify the listeners
+- To listen to the state change, simply call `useObserver` wherever in your component with a `listener` function passed in as an argument. When the state updates, the `listener` will be called
 
 ## Settings
 

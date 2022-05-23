@@ -9,7 +9,7 @@ const state:State = {
 }
 
 export const selectIndexOfSymbols = () => state.selectedIndexOfSymbols
-
+export const selectIndexOfTimeframe = () => state.selectedIndexOfTimeframe
 const observers: Array<Observer> = []
 
 export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {

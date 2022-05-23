@@ -80,7 +80,7 @@ const DropDownBox = ({
           >
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
-                <div style={{ height: "250px", overflow: "auto" }}>
+                <div style={{ maxHeight: "250px", overflow: "auto" }}>
                   <MenuList id="split-button-menu" autoFocusItem>
                     {options.map((option, index) => (
                       <MenuItem

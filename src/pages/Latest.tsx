@@ -91,9 +91,7 @@ export const LatestComponent = () => {
                                             color: 'inherit',
                                         }}
                                     >
-                                        <span>
-                                            {latest[symbol].changePercentage}
-                                        </span>
+                                        {latest[symbol].changePercentage}
                                     </TableCell>
                                 </TableRow>
                             ))}

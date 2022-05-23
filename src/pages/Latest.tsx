@@ -5,11 +5,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {
-  selectIndexOfTimeframe,
-  useObserver,
-  updateSelectedIndexOfTimeframe,
-} from "../misc/state";
+import { useObserver } from "../misc/state";
 import { RateSet } from "../misc/types";
 import { useState } from "react";
 

@@ -2,23 +2,26 @@
 
 ## Layout
 
-An app header bar for hosting links to different pages.
+Two main parts: `Header` and `Body`
+
+- Header: An app header bar for hosting links to different pages,
+- Body: A component for hosing all pages. If new pages need to be added, tweak `./src/components/Routes.tsx`.
 
 ## State Management
 
-Considering this project is quite small, instead of using a state management library, an Observer Patten is in place to make the application reactive to state updates.
+Considering this project is quite small, instead of using a state management library, an Observer Patten is implemented to make the application reactive to state updates.
 
 - The fetched exchange rateSet are stored in the `state` of `./src/misc/state.ts`,
-- The only way to update the state is to define an `update` function, which will do two things:
+- The only way to update the state is to call relevant `update` function, which will do two things:
   - update the state
   - notify the listeners
-- To listen to the state change, simply call `useObserver` wherever in your component with a `listener` function passed in as an argument. When the state updates, the `listener` will be called
+- To listen to the state change, simply call the custom hook `useObserver` wherever in your component with a `listener` function passed in as an argument. When the state updates, the `listener` will be called.
 
 ## Settings
 
 Some settings could be tuned at `./src/settings.ts`
 
-# Getting Started with Create React App
+# Getting Started
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -58,9 +61,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

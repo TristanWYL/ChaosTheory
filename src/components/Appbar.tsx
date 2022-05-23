@@ -13,7 +13,6 @@ const HeaderBar = () => {
                 <Toolbar disableGutters>
                     <AdbIcon
                         sx={{
-                            // display: { xs: "none", md: "flex" },
                             mr: 1,
                         }}
                     />
@@ -21,10 +20,9 @@ const HeaderBar = () => {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="/"
+                        href="#"
                         sx={{
                             mr: 2,
-                            // display: { xs: "none", md: "flex" },
                             fontFamily: 'monospace',
                             fontWeight: 700,
                             letterSpacing: '.3rem',
@@ -37,7 +35,6 @@ const HeaderBar = () => {
                     <Box
                         sx={{
                             flexGrow: 1,
-                            // display: { xs: "none", md: "flex" },
                             paddingLeft: '50px',
                         }}
                     >

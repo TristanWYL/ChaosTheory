@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
 import { MAX_CACHED_RATES } from '../settings'
-import type {Observer, Rate, RateSet} from './types'
+import type {IndexUpdater, Observer, Rate, State} from './types'
 
+const state:State = {
+  rateSet: [],
+  selectedIndexOfSymbols: 0,
+  selectedIndexOfTimeframe: 0
+}
 
-type State = {
-  rateSet: RateSet
-}
-export const state:State = {
-  rateSet: []
-}
+export const selectIndexOfSymbols = () => state.selectedIndexOfSymbols
 
 const observers: Array<Observer> = []
 
@@ -18,7 +18,19 @@ export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {
     state.rateSet = state.rateSet.slice(1)
   }
   for(const observer of observers){
-    observer(state.rateSet)
+    observer(state)
+  }
+}
+export const updateSelectedIndexOfSymbols: IndexUpdater = (index) => {
+  state.selectedIndexOfSymbols = index
+  for(const observer of observers){
+    observer(state)
+  }
+}
+export const updateSelectedIndexOfTimeframe: IndexUpdater = (index) => {
+  state.selectedIndexOfTimeframe = index
+  for(const observer of observers){
+    observer(state)
   }
 }
 
@@ -28,7 +40,7 @@ const subscribeRates:(listener:Observer, immediate?:boolean)=>void = (listener, 
     observers.push(listener)
   }
   if(immediate){
-    listener(state.rateSet)
+    listener(state)
   }
 }
 const unsubscribeRates:(listener:Observer)=>void = (listener) => {
@@ -38,7 +50,7 @@ const unsubscribeRates:(listener:Observer)=>void = (listener) => {
   }
 }
 
-export const useRatesObserver: (listener: Observer) => void = (listener) =>{
+export const useObserver: (listener: Observer) => void = (listener) =>{
   // console.log(`length of rateSet outside: ${rateSet.length}`);
   useEffect(() => {
     subscribeRates(listener);

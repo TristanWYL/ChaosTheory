@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getAvgPrices } from "../misc/remote";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -12,7 +11,7 @@ export const AverageComponent = () => {
   const [avgs, setAvgs] = useState<{ [k: string]: string }>({});
   console.log("AverageComponent" + "  " + Object.keys(avgs).length);
   useEffect(() => {
-    getAvgPrices().then((avgs) => setAvgs(avgs));
+    // getAvgPrices().then((avgs) => setAvgs(avgs));
   }, []);
   return (
     <div>

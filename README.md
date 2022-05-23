@@ -9,7 +9,7 @@ An app header bar for hosting links to different pages.
 Considering this project is quite small, instead of using a state management library, an Observer Patten is in place to make the application reactive to state updates.
 
 - The fetched exchange rateSet are stored in the `state` of `./src/misc/state.ts`,
-- useRatesObserver
+- useObserver
 
 ## Settings
 

@@ -1,17 +1,5 @@
 // This is the page showing history of a currency pair
-import { getSymbols } from "../misc/remote";
-import type { History } from "../misc/remote";
-import { Rate } from "../misc/types";
-import { Fragment, useRef, useState, useEffect } from "react";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
+import { useState } from "react";
 import {
   LineChart,
   Line,
@@ -21,7 +9,12 @@ import {
   Tooltip,
 } from "recharts";
 import { RateSet } from "../misc/types";
-import { useRatesObserver } from "../misc/state";
+import {
+  selectIndexOfSymbols,
+  updateSelectedIndexOfSymbols,
+  useObserver,
+} from "../misc/state";
+import DropDownBox from "../components/DropDownBox";
 
 const formatXAxis: (tick_ms: number) => string = (tick_ms) => {
   let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
@@ -32,10 +25,10 @@ const formatXAxis: (tick_ms: number) => string = (tick_ms) => {
 
 export const HistoryComponent = () => {
   const [rateSet, setRateSet] = useState<RateSet>([]);
+  const [selectedIndex, setSelectedIndex] = useState<number>(
+    selectIndexOfSymbols()
+  );
   const symbols: Array<string> = rateSet[0] && Object.keys(rateSet[0].rate);
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const historyData: Array<{ openTime: number; openPrice: number }> = [];
   rateSet.forEach(({ time, rate }) => {
     historyData.push({
@@ -43,34 +36,10 @@ export const HistoryComponent = () => {
       openPrice: rate[symbols[selectedIndex]],
     });
   });
-
-  useRatesObserver((rateSet) => {
-    setRateSet(rateSet);
+  useObserver((state) => {
+    setRateSet(state.rateSet);
+    setSelectedIndex(state.selectedIndexOfSymbols);
   });
-
-  const handleMenuItemClick = (
-    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    index: number
-  ) => {
-    if (selectedIndex !== index) {
-      setSelectedIndex(index);
-    }
-    setOpen(false);
-  };
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-  const handleClose = (event: Event) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-    setOpen(false);
-  };
-
-  // get the data to be displayed
 
   return (
     <div>
@@ -79,63 +48,11 @@ export const HistoryComponent = () => {
       ) : (
         <div>
           <div style={{ zIndex: -1 }}>
-            <Fragment>
-              <ButtonGroup
-                variant="contained"
-                ref={anchorRef}
-                aria-label="split button"
-              >
-                <Button onClick={() => {}}>{symbols[selectedIndex]}</Button>
-                <Button
-                  size="small"
-                  aria-controls={open ? "split-button-menu" : undefined}
-                  aria-expanded={open ? "true" : undefined}
-                  aria-label="select merge strategy"
-                  aria-haspopup="menu"
-                  onClick={handleToggle}
-                >
-                  <ArrowDropDownIcon />
-                </Button>
-              </ButtonGroup>
-              <Popper
-                open={open}
-                anchorEl={anchorRef.current}
-                role={undefined}
-                transition
-                disablePortal
-              >
-                {({ TransitionProps, placement }) => (
-                  <Grow
-                    {...TransitionProps}
-                    style={{
-                      transformOrigin:
-                        placement === "bottom" ? "center top" : "center bottom",
-                    }}
-                  >
-                    <Paper>
-                      <ClickAwayListener onClickAway={handleClose}>
-                        <div style={{ height: "250px", overflow: "auto" }}>
-                          <MenuList id="split-button-menu" autoFocusItem>
-                            {symbols.map((symbol, index) => (
-                              <MenuItem
-                                key={symbol}
-                                // disabled={index === 2}
-                                selected={index === selectedIndex}
-                                onClick={(event) =>
-                                  handleMenuItemClick(event, index)
-                                }
-                              >
-                                {symbol}
-                              </MenuItem>
-                            ))}
-                          </MenuList>
-                        </div>
-                      </ClickAwayListener>
-                    </Paper>
-                  </Grow>
-                )}
-              </Popper>
-            </Fragment>
+            <DropDownBox
+              options={symbols}
+              indexUpdator={updateSelectedIndexOfSymbols}
+              currentIndex={selectedIndex}
+            />
           </div>
           <div style={{ zIndex: -100, position: "relative" }}>
             <LineChart

@@ -38,7 +38,7 @@ export const HistoryComponent = () => {
     return (
         <div>
             {rateSet.length === 0 ? (
-                <p>Loading</p>
+                <p>Loading...</p>
             ) : (
                 <div>
                     <div style={{ zIndex: -1 }}>

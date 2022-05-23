@@ -19,7 +19,7 @@ Considering this project is quite small, instead of using a state management lib
 
 ## Settings
 
-Some settings could be tuned at `./src/settings.ts`
+Some settings could be adjusted at `./src/settings.ts`
 
 # Getting Started
 

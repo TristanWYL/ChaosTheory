@@ -14,7 +14,7 @@ import {
 import { RateSet } from '../misc/types'
 import DropDownBox from '../components/DropDownBox'
 
-const optionsTimeFrame = { '1m': 1, '5m': 5, '30m': 30, '60m': 60 }
+const optionsTimeFrame = { '1min': 1, '5min': 5, '30min': 30, '60min': 60 }
 
 export const AverageComponent = () => {
     const [rateSet, setRateSet] = useState<RateSet>([])
@@ -66,7 +66,7 @@ export const AverageComponent = () => {
                                 <TableRow>
                                     <TableCell>Pairs</TableCell>
                                     <TableCell align="right">
-                                        {'Prices (5min)'}
+                                        Average Price
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
@@ -90,7 +90,7 @@ export const AverageComponent = () => {
                                             {symbol}
                                         </TableCell>
                                         <TableCell align="right">
-                                            {avgs[symbol]}
+                                            {avgs[symbol].toFixed(4)}
                                         </TableCell>
                                     </TableRow>
                                 ))}

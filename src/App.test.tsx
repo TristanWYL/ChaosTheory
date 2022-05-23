@@ -1,11 +1,10 @@
-import React from 'react'
 import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import App from './App'
 
 test('renders the logo', () => {
     render(<App />)
-    const linkElement = screen.getByText(/chaos theory/i)
-    expect(linkElement).toBeInTheDocument()
+    const element = screen.getByText(/chaos theory/i)
+    expect(element).toBeInTheDocument()
 })
 
 test('redirect to /history', async () => {

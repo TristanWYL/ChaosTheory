@@ -10,7 +10,10 @@ export const getBTCExchangeRates: () => Promise<Rate> = async () => {
         symbol: string
         price: string
     }>
-    const rate = {} as { [k: string]: number }
-    prices.filter((price=>price.symbol.startsWith('BTC'))).forEach(price => rate[price.symbol] = Number(price.price))
-    return rate
+    return prices
+        .filter(price=>price.symbol.startsWith('BTC'))
+        .reduce((prev, curr) => {
+            prev[curr.symbol] = Number(curr.price)
+            return prev
+        }, {} as { [k: string]: number })
 }

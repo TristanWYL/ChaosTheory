@@ -2,19 +2,25 @@ import { useEffect } from 'react'
 import { MAX_CACHED_RATES } from '../settings'
 import type { IndexUpdater, Observer, Rate, State } from './types'
 
-const state: State = {
+let state: State = {
     rateSet: [],
     selectedIndexOfSymbols: 0,
     selectedIndexOfTimeframe: 0,
 }
 
+export const selectState = () => state
 export const selectRateSet = () => state.rateSet
 export const selectIndexOfSymbols = () => state.selectedIndexOfSymbols
 export const selectIndexOfTimeframe = () => state.selectedIndexOfTimeframe
-const observers: Array<Observer> = []
+export const resetState = () => {
+    state.rateSet = []
+    state.selectedIndexOfSymbols = 0
+    state.selectedIndexOfTimeframe = 0
+}
 
-export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {
-    state.rateSet = [...state.rateSet, { time, rate }]
+const observers: Array<Observer> = []
+export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {    
+    state = {...state, rateSet:[...state.rateSet, { time, rate }]}
     if (state.rateSet.length > MAX_CACHED_RATES) {
         state.rateSet = state.rateSet.slice(1)
     }
@@ -23,13 +29,13 @@ export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {
     }
 }
 export const updateSelectedIndexOfSymbols: IndexUpdater = (index) => {
-    state.selectedIndexOfSymbols = index
+    state = {...state, selectedIndexOfSymbols:index}
     for (const observer of observers) {
         observer(state)
     }
 }
 export const updateSelectedIndexOfTimeframe: IndexUpdater = (index) => {
-    state.selectedIndexOfTimeframe = index
+    state = {...state, selectedIndexOfTimeframe:index}
     for (const observer of observers) {
         observer(state)
     }

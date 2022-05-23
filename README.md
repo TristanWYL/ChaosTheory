@@ -1,5 +1,12 @@
 # Design and Implementation
 
+## Driver
+
+The application is driven by function `fetchExchangeRate` defined in `./src/index.tsx`, which has the following properties:
+
+-   it fetches the exchange rates regularly and update the UI reactively,
+-   it is called every `INTERVAL_FOR_FETCHING_RATES_SEC` (imported from `./src/settings.ts`) seconds,
+
 ## Layout
 
 Two main parts: `Header` and `Body`
@@ -11,11 +18,12 @@ Two main parts: `Header` and `Body`
 
 Considering this project is quite small, instead of using a state management library, an Observer Patten is implemented to make the application reactive to state updates.
 
--   The fetched exchange rateSet are stored in the `state` of `./src/misc/state.ts`,
+-   The fetched exchange `rateSet` are stored in the `state` of `./src/misc/state.ts`,
 -   The only way to update the state is to call relevant `update` function, which will do two things:
     -   update the state
     -   notify the listeners
--   To listen to the state change, simply call the custom hook `useObserver` wherever in your component with a `listener` function passed in as an argument. When the state updates, the `listener` will be called.
+-   To listen to the state change, simply call the custom hook `useObserver` wherever in your component with a `listener` function passed in as an argument. When the state updates, the `listener` will be called,
+-   when updating the state, try to replace the old state with a new state, so that the `setState` function derived from `useState` can always work.
 
 ## Settings
 

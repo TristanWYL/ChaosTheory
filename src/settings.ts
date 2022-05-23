@@ -1,6 +1,6 @@
 // The interval for fetching the exchange rates
 // no less than 5 seconds
-// For easily observing the UI update due to data fetching, 
+// For easily observing the UI update due to data fetching,
 // this number could be set smaller
 export const INTERVAL_FOR_FETCHING_RATES_SEC = 5
 

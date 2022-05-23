@@ -1,7 +1,5 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import DropDownBox from './DropDownBox'
-import { IndexUpdater } from '../misc/types'
-import { wait } from '@testing-library/user-event/dist/utils'
 
 test('interact with the DropDownBox', async () => {
     let options = ['A', 'B', 'C']
@@ -28,7 +26,6 @@ test('interact with the DropDownBox', async () => {
         expect(screen.queryAllByText(options[0])).toHaveLength(2)
     })
     expect(screen.getByText(options[1])).toBeInTheDocument()
-
     expect(screen.getByText(options[2])).toBeInTheDocument()
 
     // click on the third one

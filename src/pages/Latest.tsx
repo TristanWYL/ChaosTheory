@@ -22,7 +22,7 @@ export const LatestComponent = () => {
         let ratePre = rateSet[rateSet.length - 2].rate
         let rateLatest = rateSet[rateSet.length - 1].rate
         for (const [k, v] of Object.entries(rateLatest)) {
-            let sign = v > ratePre[k] ? '+' : '-'
+            let sign = v > ratePre[k] ? '+' : v === ratePre[k] ? '' : '-'
             let percentage =
                 sign + (Math.abs(v / ratePre[k] - 1) * 100).toFixed(5) + '%'
             latest[k] = { price: v, changePercentage: percentage }
@@ -55,6 +55,15 @@ export const LatestComponent = () => {
                                         '&:last-child td, &:last-child th': {
                                             border: 0,
                                         },
+                                        color: latest[
+                                            symbol
+                                        ].changePercentage.startsWith('-')
+                                            ? 'red'
+                                            : latest[
+                                                  symbol
+                                              ].changePercentage.startsWith('+')
+                                            ? 'green'
+                                            : 'black',
                                     }}
                                 >
                                     <TableCell
@@ -63,25 +72,26 @@ export const LatestComponent = () => {
                                         sx={{
                                             paddingTop: '0px',
                                             paddingBottom: '0px',
+                                            color: 'inherit',
                                         }}
                                     >
                                         {symbol}
                                     </TableCell>
-                                    <TableCell align="right">
+                                    <TableCell
+                                        align="right"
+                                        sx={{
+                                            color: 'inherit',
+                                        }}
+                                    >
                                         {latest[symbol].price}
                                     </TableCell>
-                                    <TableCell align="right">
-                                        <span
-                                            style={{
-                                                color: latest[
-                                                    symbol
-                                                ].changePercentage.startsWith(
-                                                    '-'
-                                                )
-                                                    ? 'red'
-                                                    : 'green',
-                                            }}
-                                        >
+                                    <TableCell
+                                        align="right"
+                                        sx={{
+                                            color: 'inherit',
+                                        }}
+                                    >
+                                        <span>
                                             {latest[symbol].changePercentage}
                                         </span>
                                     </TableCell>

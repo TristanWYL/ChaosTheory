@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import {
+    selectRateSet,
     selectIndexOfTimeframe,
     useObserver,
     updateSelectedIndexOfTimeframe,
@@ -17,7 +18,7 @@ import DropDownBox from '../components/DropDownBox'
 const optionsTimeFrame = { '1min': 1, '5min': 5, '30min': 30, '60min': 60 }
 
 export const AverageComponent = () => {
-    const [rateSet, setRateSet] = useState<RateSet>([])
+    const [rateSet, setRateSet] = useState<RateSet>(selectRateSet())
     const [selectedIndex, setSelectedIndex] = useState<number>(
         selectIndexOfTimeframe()
     )

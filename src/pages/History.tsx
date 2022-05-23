@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
 import { RateSet } from '../misc/types'
 import {
+    selectRateSet,
     selectIndexOfSymbols,
     updateSelectedIndexOfSymbols,
     useObserver,
@@ -17,7 +18,7 @@ const formatXAxis: (tick_ms: number) => string = (tick_ms) => {
 }
 
 export const HistoryComponent = () => {
-    const [rateSet, setRateSet] = useState<RateSet>([])
+    const [rateSet, setRateSet] = useState<RateSet>(selectRateSet())
     const [selectedIndex, setSelectedIndex] = useState<number>(
         selectIndexOfSymbols()
     )

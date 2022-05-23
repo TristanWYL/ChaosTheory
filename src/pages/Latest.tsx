@@ -5,7 +5,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { useObserver } from '../misc/state'
+import { selectRateSet, useObserver } from '../misc/state'
 import { RateSet } from '../misc/types'
 import { useState } from 'react'
 
@@ -13,7 +13,7 @@ export const LatestComponent = () => {
     const latest: {
         [symbol: string]: { price: number; changePercentage: string }
     } = {}
-    const [rateSet, setRateSet] = useState<RateSet>([])
+    const [rateSet, setRateSet] = useState<RateSet>(selectRateSet())
     if (rateSet.length === 1) {
         for (const [k, v] of Object.entries(rateSet[0].rate)) {
             latest[k] = { price: v, changePercentage: '' }

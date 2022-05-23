@@ -8,6 +8,7 @@ const state: State = {
     selectedIndexOfTimeframe: 0,
 }
 
+export const selectRateSet = () => state.rateSet
 export const selectIndexOfSymbols = () => state.selectedIndexOfSymbols
 export const selectIndexOfTimeframe = () => state.selectedIndexOfTimeframe
 const observers: Array<Observer> = []
@@ -34,16 +35,12 @@ export const updateSelectedIndexOfTimeframe: IndexUpdater = (index) => {
     }
 }
 
-const subscribeRates: (listener: Observer, immediate?: boolean) => void = (
-    listener,
-    immediate = true
+const subscribeRates: (listener: Observer) => void = (
+    listener
 ) => {
     const isExist = observers.includes(listener)
     if (!isExist) {
         observers.push(listener)
-    }
-    if (immediate) {
-        listener(state)
     }
 }
 const unsubscribeRates: (listener: Observer) => void = (listener) => {

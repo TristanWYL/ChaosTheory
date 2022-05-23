@@ -11,23 +11,31 @@ test('selectors and updaters', () => {
     let price = 30000
     let pair = 'BTCUSDT'
     const rateSet1: RateSet = [{ time, rate: { [pair]: price } }]
-    S.updateRates(time, { [pair]: price })
+    act(() => {
+        S.updateRates(time, { [pair]: price })
+    })
     expect(S.selectRateSet().length).toBe(1)
     expect(S.selectRateSet()).toStrictEqual(rateSet1)
 
     time = randomInt(1, 30)
     price = 20000
     const rateSet2: RateSet = [{ time, rate: { [pair]: price } }]
-    S.updateRates(time, { [pair]: price })
+    act(() => {
+        S.updateRates(time, { [pair]: price })
+    })
     expect(S.selectRateSet().length).toBe(2)
     expect(S.selectRateSet()).toStrictEqual(rateSet1.concat(rateSet2))
 
     let symbolIndex = randomInt(1, 30)
-    S.updateSelectedIndexOfSymbols(symbolIndex)
+    act(() => {
+        S.updateSelectedIndexOfSymbols(symbolIndex)
+    })
     expect(S.selectIndexOfSymbols()).toBe(symbolIndex)
 
     let timeFrameIndex = randomInt(1, 30)
-    S.updateSelectedIndexOfTimeframe(timeFrameIndex)
+    act(() => {
+        S.updateSelectedIndexOfTimeframe(timeFrameIndex)
+    })
     expect(S.selectIndexOfTimeframe()).toBe(timeFrameIndex)
 })
 
@@ -59,50 +67,56 @@ const TestComponent = () => {
 test('observer', async () => {
     S.resetState()
     render(<TestComponent />)
-    act(async () => {
-        const element1 = screen.getByText('selectedIndexOfSymbols: 0')
-        const element2 = screen.getByText('selectedIndexOfTimeframe: 0')
-        expect(element1).toBeInTheDocument()
-        expect(element2).toBeInTheDocument()
-        const element3 = screen.queryByText('time: ')
-        expect(element3).toBeNull()
+    const element1 = screen.getByText('selectedIndexOfSymbols: 0')
+    const element2 = screen.getByText('selectedIndexOfTimeframe: 0')
+    expect(element1).toBeInTheDocument()
+    expect(element2).toBeInTheDocument()
+    const element3 = screen.queryByText('time: ')
+    expect(element3).toBeNull()
+    let symbolIndex = randomInt(1, 30)
 
-        let symbolIndex = randomInt(1, 30)
+    act(() => {
         S.updateSelectedIndexOfSymbols(symbolIndex)
-        await waitFor(() => {
-            expect(
-                screen.getByText('selectedIndexOfSymbols: ' + symbolIndex)
-            ).toBeInTheDocument()
-        })
+    })
+    await waitFor(() => {
+        expect(
+            screen.getByText('selectedIndexOfSymbols: ' + symbolIndex)
+        ).toBeInTheDocument()
+    })
 
-        let timeFrameIndex = randomInt(1, 30)
+    let timeFrameIndex = randomInt(1, 30)
+    act(() => {
         S.updateSelectedIndexOfTimeframe(timeFrameIndex)
-        await waitFor(() => {
-            expect(
-                screen.getByText('selectedIndexOfTimeframe: ' + timeFrameIndex)
-            ).toBeInTheDocument()
-        })
+    })
+    await waitFor(() => {
+        expect(
+            screen.getByText('selectedIndexOfTimeframe: ' + timeFrameIndex)
+        ).toBeInTheDocument()
+    })
 
-        let time = randomInt(1, 30)
-        let price = 30000
-        let pair = 'BTCUSDT'
+    let time = randomInt(1, 30)
+    let price = 30000
+    let pair = 'BTCUSDT'
+    act(() => {
         S.updateRates(time, { [pair]: price })
-        await waitFor(() => {
-            expect(screen.getByText('time: ' + time)).toBeInTheDocument()
-        })
-        await waitFor(() => {
-            expect(screen.getByText(pair + ': ' + price)).toBeInTheDocument()
-        })
+    })
+    await waitFor(() => {
+        expect(screen.getByText('time: ' + time)).toBeInTheDocument()
+    })
+    await waitFor(() => {
+        expect(screen.getByText(pair + ': ' + price)).toBeInTheDocument()
+    })
 
-        time = randomInt(1, 30)
-        price = 20000
-        pair = 'BTCUSDC'
+    time = randomInt(1, 30)
+    price = 20000
+    pair = 'BTCUSDC'
+    act(() => {
         S.updateRates(time, { [pair]: price })
-        await waitFor(() => {
-            expect(screen.getAllByText('time: ')).toHaveLength(2)
-        })
-        await waitFor(() => {
-            expect(screen.getByText(pair + ': ' + price)).toBeInTheDocument()
-        })
+    })
+    await waitFor(() => {
+        expect(screen.getAllByText(/time:/)).toHaveLength(2)
+    })
+    await waitFor(() => {
+        expect(screen.getByText(pair + ': ' + price)).toBeInTheDocument()
     })
 })

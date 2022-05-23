@@ -1,4 +1,4 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react'
 import { AverageComponent } from './Average'
 import { RateSet } from '../misc/types'
 import * as S from '../misc/state'
@@ -60,8 +60,10 @@ test('renders the average page', async () => {
     expect(screen.queryByText(symbols[0])).toBeNull()
     expect(screen.queryByText(symbols[1])).toBeNull()
 
-    // loading data
-    S.updateRates(fakeRateSet[0].time, fakeRateSet[0].rate)
+    act(() => {
+        // loading data
+        S.updateRates(fakeRateSet[0].time, fakeRateSet[0].rate)
+    })
 
     // now the data is shown
     await waitFor(() => {
@@ -75,8 +77,10 @@ test('renders the average page', async () => {
     expect(screen.getByText('1min')).toBeInTheDocument()
 
     for (let i = 1; i < fakeRateSet.length; i++) {
-        // loading the data
-        S.updateRates(fakeRateSet[i].time, fakeRateSet[i].rate)
+        act(() => {
+            // loading the data
+            S.updateRates(fakeRateSet[i].time, fakeRateSet[i].rate)
+        })
         // now the data is updated
         await waitFor(() => {
             expect(screen.getByText(symbols[0])).toBeInTheDocument()

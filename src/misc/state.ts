@@ -19,8 +19,8 @@ export const resetState = () => {
 }
 
 const observers: Array<Observer> = []
-export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {    
-    state = {...state, rateSet:[...state.rateSet, { time, rate }]}
+export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {
+    state = { ...state, rateSet: [...state.rateSet, { time, rate }] }
     if (state.rateSet.length > MAX_CACHED_RATES) {
         state.rateSet = state.rateSet.slice(1)
     }
@@ -29,21 +29,19 @@ export const updateRates: (time: number, rate: Rate) => void = (time, rate) => {
     }
 }
 export const updateSelectedIndexOfSymbols: IndexUpdater = (index) => {
-    state = {...state, selectedIndexOfSymbols:index}
+    state = { ...state, selectedIndexOfSymbols: index }
     for (const observer of observers) {
         observer(state)
     }
 }
 export const updateSelectedIndexOfTimeframe: IndexUpdater = (index) => {
-    state = {...state, selectedIndexOfTimeframe:index}
+    state = { ...state, selectedIndexOfTimeframe: index }
     for (const observer of observers) {
         observer(state)
     }
 }
 
-const subscribeRates: (listener: Observer) => void = (
-    listener
-) => {
+const subscribeRates: (listener: Observer) => void = (listener) => {
     const isExist = observers.includes(listener)
     if (!isExist) {
         observers.push(listener)

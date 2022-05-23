@@ -11,7 +11,7 @@ export const getBTCExchangeRates: () => Promise<Rate> = async () => {
         price: string
     }>
     return prices
-        .filter(price=>price.symbol.startsWith('BTC'))
+        .filter((price) => price.symbol.startsWith('BTC'))
         .reduce((prev, curr) => {
             prev[curr.symbol] = Number(curr.price)
             return prev

@@ -1,4 +1,4 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react'
 import { HistoryComponent } from './History'
 import { RateSet } from '../misc/types'
 import * as S from '../misc/state'
@@ -60,8 +60,10 @@ test('renders the history page', async () => {
     expect(screen.queryByText(symbols[0])).toBeNull()
     expect(screen.queryByText(symbols[1])).toBeNull()
 
-    // loading data
-    S.updateRates(fakeRateSet[0].time, fakeRateSet[0].rate)
+    act(() => {
+        // loading data
+        S.updateRates(fakeRateSet[0].time, fakeRateSet[0].rate)
+    })
 
     // now the data is shown
     await waitFor(() => {

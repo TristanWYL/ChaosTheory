@@ -2,6 +2,7 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import { LatestComponent } from './Latest'
 import { RateSet } from '../misc/types'
 import * as S from '../misc/state'
+import { act } from 'react-dom/test-utils'
 
 const symbols = ['BTCUSDT', 'BTCPAX']
 const ratesForSymbol1 = [25, 54, 32, 33, 54, 36]
@@ -77,7 +78,9 @@ test('renders the Latest page', async () => {
     expect(screen.queryByText(symbols[1])).toBeNull()
 
     // loading data
-    S.updateRates(fakeRateSet[0].time, fakeRateSet[0].rate)
+    act(() => {
+        S.updateRates(fakeRateSet[0].time, fakeRateSet[0].rate)
+    })
 
     // now the data is shown
     await waitFor(() => {
@@ -89,8 +92,10 @@ test('renders the Latest page', async () => {
     expect(screen.getByText(/%/)).toBeInTheDocument()
 
     for (let i = 1; i < fakeRateSet.length; i++) {
-        // loading the data
-        S.updateRates(fakeRateSet[i].time, fakeRateSet[i].rate)
+        act(() => {
+            // loading the data
+            S.updateRates(fakeRateSet[i].time, fakeRateSet[i].rate)
+        })
         // now the data is updated
         await waitFor(() => {
             expect(screen.getByText(ratesForSymbol1[i])).toBeInTheDocument()
@@ -108,7 +113,8 @@ test('renders the Latest page', async () => {
         // test the color
         await waitFor(() => {
             expect(
-                window.getComputedStyle(percentage1.parentElement).color
+                window.getComputedStyle(percentage1.parentElement as Element)
+                    .color
             ).toBe(
                 getColorByPercentage(
                     toChangePercentage(
@@ -120,7 +126,8 @@ test('renders the Latest page', async () => {
         })
         await waitFor(() => {
             expect(
-                window.getComputedStyle(percentage2.parentElement).color
+                window.getComputedStyle(percentage2.parentElement as Element)
+                    .color
             ).toBe(
                 getColorByPercentage(
                     toChangePercentage(

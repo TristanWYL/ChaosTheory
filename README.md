@@ -51,7 +51,7 @@ In the project directory, you can run:
 
 ## How to build
 
-### `yarn build`
+`yarn build`
 
 ## How to prettify
 
